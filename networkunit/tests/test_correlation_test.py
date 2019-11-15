@@ -38,17 +38,7 @@ class correlation_test(two_sample_test):
         if 'binsize' not in self.params and 'num_bins' not in self.params:
             self.params['binsize'] = 2*ms
         super(correlation_test, self).__init__(observation=observation,
-                                               name=name, **params)
-
-    def generate_prediction(self, model, **kwargs):
-        # call the function of the required capability of the model
-        # and pass the parameters of the test class instance in case the
-        if kwargs:
-            self.params.update(kwargs)
-        # check is model has already stored prediction
-        spiketrains = model.produce_spiketrains(**self.params)
-        return self.generate_correlations(spiketrains=spiketrains,
-                                         **self.params)
+                                               name=name, **self.params)
 
     def validate_observation(self, observation):
         # ToDo: Check if observation values are legit (non nan, positive, ...)
@@ -107,4 +97,3 @@ class correlation_test(two_sample_test):
         if nan_to_num:
             cc_matrix = np.nan_to_num(cc_matrix)
         return cc_matrix
-
